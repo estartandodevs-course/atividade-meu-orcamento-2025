@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Meu Orçamento</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Meu Orçamento</h1>
+      </header>
+
+      <section class="resumo">
+        <div class="card">
+          <h2>Receitas</h2>
+          <span id="valor-receitas" class="receita">R$ 0,00</span>
+        </div>
+        <div class="card">
+          <h2>Despesas</h2>
+          <span id="valor-despesas" class="despesa">R$ 0,00</span>
+        </div>
+        <div class="card saldo">
+          <h2>Saldo</h2>
+          <span id="valor-saldo">R$ 0,00</span>
+        </div>
+      </section>
+
+      <form id="form-transacao">
+        <h3>Adicionar nova transação</h3>
+        <div class="form-control">
+          <label for="input-descricao">Descrição</label>
+          <input
+            type="text"
+            id="input-descricao"
+            placeholder="Ex: Salário, Aluguel..."
+            required
+          />
+        </div>
+        <div class="form-control">
+          <label for="input-valor">Valor</label>
+          <input
+            type="number"
+            id="input-valor"
+            placeholder="Positivo para receita, negativo para despesa"
+            required
+          />
+        </div>
+        <button id="btn-adicionar" type="submit">Adicionar</button>
+      </form>
+
+      <section class="transacoes">
+        <h2>Histórico de Transações</h2>
+        <ul id="lista-transacoes"></ul>
+      </section>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,111 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  display: flex;
+  justify-content: center;
+}
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: 30px;
+  padding: 20px;
+}
+h1,
+h2,
+h3 {
+  color: #00234b;
+}
+.resumo {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 20px 0;
+}
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  flex: 1;
+}
+.card span {
+  font-size: 2em;
+  font-weight: bold;
+}
+.receita {
+  color: #28a745;
+}
+.despesa {
+  color: #dc3545;
+}
+form {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+.form-control {
+  margin-bottom: 15px;
+}
+form label {
+  display: block;
+  margin-bottom: 5px;
+}
+form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+form button:hover {
+  background-color: #003d7a;
+}
+#lista-transacoes {
+  list-style: none;
+  padding: 0;
+}
+#lista-transacoes li {
+  background: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-right: 5px solid;
+  position: relative;
+}
+#lista-transacoes li.receita {
+  border-color: #28a745;
+}
+#lista-transacoes li.despesa {
+  border-color: #dc3545;
+}
+.btn-remover {
+  background-color: #e6e6e6;
+  border: none;
+  color: #a0a0a0;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+.btn-remover:hover {
+  background-color: #dc3545;
+  color: white;
+}
