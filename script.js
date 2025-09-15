@@ -41,12 +41,12 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const descricao = inputDescricao.value.trim();
-  const valor = number(inputValor.value);
+  const valor = Number(inputValor.value);
 
   if (descricao === "") {
     alert("Prencha os campos da descrição corretamente");
     return;
-  } else if (valor === 0 || valor === NaN) {
+  } else if (valor === 0 || isNaN(valor)) {
     alert("O valor precisa ser maior que 0, e não pode ser vazio.");
     return;
   }
@@ -61,6 +61,38 @@ form.addEventListener("submit", (event) => {
 
   salvarTransacoes();
 
+  renderizar();
+
   inputDescricao.value = "";
   inputValor.value = "";
 });
+
+function renderizar() {
+  listaTransacoes.innerHTML = "";
+
+  let receitas = 0;
+  let despesas = 0;
+
+  transacoes.forEach((transacao) => {
+    const li = document.createElement("li");
+    li.textContent = `${transacao.descricao} - R$ ${transacao.valor}`;
+
+    li.classList.add(transacao.valor > 0 ? "receita" : "despesa");
+
+    listaTransacoes.appendChild(li);
+
+    if (transacao.valor > 0) {
+      receitas += transacao.valor;
+    } else {
+      despesas += transacao.valor;
+    }
+  });
+
+  const saldo = receitas + despesas;
+
+  spanReceitas.textContent = `R$ ${receitas.toFixed(2)}`;
+  spanDespesas.textContent = `R$ ${despesas.toFixed(2)}`;
+  spanSaldo.textContent = `R$ ${saldo.toFixed(2)}`;
+}
+
+renderizar();
