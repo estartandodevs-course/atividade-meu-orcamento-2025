@@ -89,7 +89,7 @@ function renderizarListaTransacoes() {
       (transacao) => `
       <li class="${transacao.valor > 0 ? "receita" : "despesa"}">
         ${transacao.descricao} - ${formatarMoeda(transacao.valor)}
-        <button class="remover" data-id="${transacao.id}">X</button>
+        <button class="btn-remover" data-id="${transacao.id}">X</button>
       </li>
     `
     )
