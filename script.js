@@ -111,3 +111,10 @@ listaTransacoes.addEventListener("click", (event) => {
     renderizar();
   }
 });
+
+function init() {
+  carregarTransacoes();
+  renderizar();
+}
+
+init();
