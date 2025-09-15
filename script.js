@@ -1,5 +1,13 @@
 let transacoes = [];
 
+const form = document.querySelector("#form-transacao");
+const inputDescricao = document.querySelector("#input-descricao");
+const inputValor = document.querySelector("#input-valor");
+const listaTransacoes = document.querySelector("#lista-transacoes");
+const spanReceitas = document.querySelector("#valor-receitas");
+const spanDespesas = document.querySelector("#valor-despesas");
+const spanSaldo = document.querySelector("#valor-saldo");
+
 function carregarTransacoes() {
   try {
     const existeDados = localStorage.getItem("transacoes");
@@ -28,3 +36,31 @@ function adicionarTransacao(descricao, valor) {
   transacoes.push(transacao);
   salvarTransacoes();
 }
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const descricao = inputDescricao.value.trim();
+  const valor = number(inputValor.value);
+
+  if (descricao === "") {
+    alert("Prencha os campos da descrição corretamente");
+    return;
+  } else if (valor === 0 || valor === NaN) {
+    alert("O valor precisa ser maior que 0, e não pode ser vazio.");
+    return;
+  }
+
+  const transacao = {
+    id: new Date().getTime(),
+    descricao,
+    valor,
+  };
+
+  transacoes.push(transacao);
+
+  salvarTransacoes();
+
+  inputDescricao.value = "";
+  inputValor.value = "";
+});
