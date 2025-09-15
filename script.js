@@ -51,48 +51,57 @@ form.addEventListener("submit", (event) => {
     return;
   }
 
-  const transacao = {
-    id: new Date().getTime(),
-    descricao,
-    valor,
-  };
-
-  transacoes.push(transacao);
-
-  salvarTransacoes();
-
+  adicionarTransacao(descricao, valor);
   renderizar();
 
   inputDescricao.value = "";
   inputValor.value = "";
 });
 
-function renderizar() {
-  listaTransacoes.innerHTML = "";
-
-  let receitas = 0;
-  let despesas = 0;
-
-  transacoes.forEach((transacao) => {
-    const li = document.createElement("li");
-    li.textContent = `${transacao.descricao} - R$ ${transacao.valor}`;
-
-    li.classList.add(transacao.valor > 0 ? "receita" : "despesa");
-
-    listaTransacoes.appendChild(li);
-
-    if (transacao.valor > 0) {
-      receitas += transacao.valor;
-    } else {
-      despesas += transacao.valor;
-    }
+function formatarMoeda(valor) {
+  return valor.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
   });
+}
+
+function atualizarResumo() {
+  const receitas = transacoes
+    .filter((t) => t.valor > 0)
+    .reduce((acc, t) => acc + t.valor, 0);
+
+  const despesas = transacoes
+    .filter((t) => t.valor < 0)
+    .reduce((acc, t) => acc + t.valor, 0);
 
   const saldo = receitas + despesas;
 
-  spanReceitas.textContent = `R$ ${receitas.toFixed(2)}`;
-  spanDespesas.textContent = `R$ ${despesas.toFixed(2)}`;
-  spanSaldo.textContent = `R$ ${saldo.toFixed(2)}`;
+  spanReceitas.textContent = formatarMoeda(receitas);
+  spanDespesas.textContent = formatarMoeda(despesas);
+  spanSaldo.textContent = formatarMoeda(saldo);
 }
 
+function renderizarListaTransacoes() {
+  listaTransacoes.innerHTML = "";
+
+  const htmlTransacoes = transacoes
+    .map(
+      (transacao) => `
+      <li class="${transacao.valor > 0 ? "receita" : "despesa"}">
+        ${transacao.descricao} - ${formatarMoeda(transacao.valor)}
+        <button class="remover" data-id="${transacao.id}">X</button>
+      </li>
+    `
+    )
+    .join("");
+
+  listaTransacoes.innerHTML = htmlTransacoes;
+}
+
+function renderizar() {
+  renderizarListaTransacoes();
+  atualizarResumo();
+}
+
+carregarTransacoes();
 renderizar();
