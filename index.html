@@ -8,16 +8,16 @@
   <body>
     <div class="container">
       <header>
-        <h1>Meu Orçamento</h1>
+        <h1 id="mostrarTodas">Meu Orçamento</h1>
       </header>
 
       <section class="resumo">
         <div class="card">
-          <h2>Receitas</h2>
+          <h2 id="receitaFiltrada">Receitas</h2>
           <span id="valor-receitas" class="receita">R$ 0,00</span>
         </div>
         <div class="card">
-          <h2>Despesas</h2>
+          <h2 id="despesaFiltrada">Despesas</h2>
           <span id="valor-despesas" class="despesa">R$ 0,00</span>
         </div>
         <div class="card saldo">
@@ -50,6 +50,7 @@
       </form>
 
       <section class="transacoes">
+        <div id="mensagem"></div>
         <h2>Histórico de Transações</h2>
         <ul id="lista-transacoes"></ul>
       </section>

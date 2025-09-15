@@ -89,7 +89,16 @@ form button:hover {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   border-right: 5px solid;
   position: relative;
+  transition: all 0.5s ease;
+  opacity: 1;
+  transform: translateY(0);
 }
+#lista-transacoes li.escondido
+{
+  opacity: 0.5;
+  transform: translateY(-10px);
+}
+
 #lista-transacoes li.receita {
   border-color: #28a745;
 }
@@ -108,4 +117,10 @@ form button:hover {
 .btn-remover:hover {
   background-color: #dc3545;
   color: white;
+}
+
+#receitaFiltrada, 
+#despesaFiltrada,
+#mostrarTodas {
+  cursor: pointer;
 }
