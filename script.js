@@ -103,5 +103,11 @@ function renderizar() {
   atualizarResumo();
 }
 
-carregarTransacoes();
-renderizar();
+listaTransacoes.addEventListener("click", (event) => {
+  if (event.target.classList.contains("remover")) {
+    const id = Number(event.target.getAttribute("data-id"));
+    transacoes = transacoes.filter((t) => t.id !== id);
+    salvarTransacoes();
+    renderizar();
+  }
+});
