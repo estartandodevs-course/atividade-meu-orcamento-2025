@@ -104,7 +104,7 @@ function renderizar() {
 }
 
 listaTransacoes.addEventListener("click", (event) => {
-  if (event.target.classList.contains("remover")) {
+  if (event.target.classList.contains("btn-remover")) {
     const id = Number(event.target.getAttribute("data-id"));
     transacoes = transacoes.filter((t) => t.id !== id);
     salvarTransacoes();
