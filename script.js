@@ -33,10 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const valor = Number(inputValor.value);
     
     if (!descricao.trim() || !valor) {
-      alert('Por favor preencha os campos.');
+      alert('Por favor preencha os campos com valor válido.');
+      return;
     }
 
-    transacao = {
+    let transacao = {
       id: new Date().getTime(),
       descricao: descricao,
       valor: valor,
@@ -48,5 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
     inputDescricao.value= '';
     inputValor.value = '';
   });
+  
   
 });
