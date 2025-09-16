@@ -1,11 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const transacao = {
-    id: new Date().getTime(),
-    descricao,
-    valor,
-  };
-  
-  let transacoes = [];
+  let transacoes = []
 
   function carregarTransacoes() {
     try {
@@ -16,16 +10,43 @@ document.addEventListener("DOMContentLoaded", () => {
         transacoes = [];
       }
     } catch (error) {
-      console.error("Erro ao carregar transações: ", erro);
-      transacoes = []
+      console.error("Erro ao carregar transações: ", error);
+      transacoes = [];
     }
-  }
-});
+  };
 
-function salvarTransacoes() {
-  try {
-    localStorage.setItem('transacoes', JSON.stringify(trasacoes));
-  } catch (error) {
-    console.error('Erro ao salvar transações: ', erro)
-  }
-}
+  function salvarTransacoes() {
+    try {
+      localStorage.setItem("transacoes", JSON.stringify(transacoes));
+    } catch (error) {
+      console.error("Erro ao salvar transações: ", error);
+    }
+  };
+
+  const formulario = document.getElementById('form-transacao')
+  .addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const inputDescricao = document.getElementById('input-descricao');
+    const descricao = inputDescricao.value;
+    const inputValor = document.getElementById('input-valor');
+    const valor = Number(inputValor.value);
+    
+    if (!descricao.trim() || !valor) {
+      alert('Por favor preencha os campos.');
+    }
+
+    transacao = {
+      id: new Date().getTime(),
+      descricao: descricao,
+      valor: valor,
+    };
+
+    transacoes.push(transacao);
+
+    salvarTransacoes();
+    inputDescricao.value= '';
+    inputValor.value = '';
+  });
+  
+});
