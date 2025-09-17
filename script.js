@@ -1,101 +1,114 @@
-document.addEventListener("DOMContentLoaded", () => {
-  let transacoes = [];
+let transacoes = [];
+let lista = document.getElementById("lista-transacoes");
 
-  carregarTransacoes();
-  atualizarResumo();
-  renderizarListaTransacoes();
+carregarTransacoes();
+atualizarResumo();
+renderizarListaTransacoes();
 
-  function carregarTransacoes() {
-    try {
-      const dados = localStorage.getItem("transacoes");
-      if (dados) {
-        transacoes = JSON.parse(dados);
-      } else {
-        transacoes = [];
-      }
-    } catch (error) {
-      console.error("Erro ao carregar transações: ", error);
+function carregarTransacoes() {
+  try {
+    const dados = localStorage.getItem("transacoes");
+    if (dados) {
+      transacoes = JSON.parse(dados);
+    } else {
       transacoes = [];
     }
+  } catch (error) {
+    console.error("Erro ao carregar transações: ", error);
+    transacoes = [];
   }
+}
 
-  function salvarTransacoes() {
-    try {
-      localStorage.setItem("transacoes", JSON.stringify(transacoes));
-    } catch (error) {
-      console.error("Erro ao salvar transações: ", error);
+function salvarTransacoes() {
+  try {
+    localStorage.setItem("transacoes", JSON.stringify(transacoes));
+  } catch (error) {
+    console.error("Erro ao salvar transações: ", error);
+  }
+}
+
+const formulario = document
+  .getElementById("form-transacao")
+  .addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const inputDescricao = document.getElementById("input-descricao");
+    let descricao = inputDescricao.value;
+    const inputValor = document.getElementById("input-valor");
+    let valor = Number(inputValor.value);
+
+    if (!descricao.trim() || isNaN(valor) || !valor) {
+      alert("Por favor preencha os campos com valor válido.");
+      return;
     }
-  }
 
-  const formulario = document
-    .getElementById("form-transacao")
-    .addEventListener("submit", (event) => {
-      event.preventDefault();
+    let transacao = {
+      id: new Date().getTime(),
+      descricao: descricao,
+      valor: valor,
+    };
 
-      const inputDescricao = document.getElementById("input-descricao");
-      let descricao = inputDescricao.value;
-      const inputValor = document.getElementById("input-valor");
-      let valor = Number(inputValor.value);
+    transacoes.push(transacao);
 
-      if (!descricao.trim() || !valor) {
-        alert("Por favor preencha os campos com valor válido.");
-        return;
-      }
+    salvarTransacoes();
+    inputDescricao.value = "";
+    inputValor.value = "";
 
-      let transacao = {
-        id: new Date().getTime(),
-        descricao: descricao,
-        valor: valor,
-      };
+    renderizarListaTransacoes();
+    atualizarResumo();
+  });
 
-      transacoes.push(transacao);
+function atualizarResumo() {
+  let somaReceita = transacoes
+    .filter((obj) => obj.valor)
+    .reduce((total, obj) => {
+      return obj.valor > 0 ? total + obj.valor : total;
+    }, 0);
 
-      salvarTransacoes();
-      inputDescricao.value = "";
-      inputValor.value = "";
-    });
+  let somaDespesas = transacoes
+    .filter((obj) => obj.valor)
+    .reduce((total, obj) => {
+      return obj.valor < 0 ? total + obj.valor : total;
+    }, 0);
 
-  function atualizarResumo() {
-    let somaReceita = transacoes
-      .filter((obj) => obj.valor)
-      .reduce((total, obj) => {
-        return obj.valor > 0 ? total + obj.valor : total;
-      }, 0);
+  let saldoFinal = somaReceita + somaDespesas;
 
-    let somaDespesas = transacoes
-      .filter((obj) => obj.valor)
-      .reduce((total, obj) => {
-        return obj.valor < 0 ? total + obj.valor : total;
-      }, 0);
+  document.getElementById("valor-receitas").textContent =
+    formatarMoeda(somaReceita);
+  document.getElementById("valor-despesas").textContent =
+    formatarMoeda(somaDespesas);
+  document.getElementById("valor-saldo").textContent =
+    formatarMoeda(saldoFinal);
+}
 
-    let saldoFinal = somaReceita + somaDespesas;
+function renderizarListaTransacoes() {
+  lista.innerHTML = "";
 
-    document.getElementById("valor-receitas").textContent =
-      formatarMoeda(somaReceita);
-    document.getElementById("valor-despesas").textContent =
-      formatarMoeda(somaDespesas);
-    document.getElementById("valor-saldo").textContent =
-      formatarMoeda(saldoFinal);
-  }
-
-  function renderizarListaTransacoes() {
-    let lista = document.getElementById("lista-transacoes");
-    lista.innerHTML = "";
-
-    let htmlTransacoes = transacoes.map((transacao) => {
-      return `<li class= '${transacao.valor > 0 ? "receita" : "despesa"}'>
+  let htmlTransacoes = transacoes.map((transacao) => {
+    return `<li class= '${transacao.valor > 0 ? "receita" : "despesa"}'>
       <p>${transacao.descricao} R$ ${transacao.valor}</p>
       <button class='btn-remover' data-id='${transacao.id}'>Remover</button>
       </li>`;
-    });
+  });
 
-    lista.innerHTML = htmlTransacoes.join("");
-  }
+  lista.innerHTML = htmlTransacoes.join("");
+}
 
-  function formatarMoeda(valor) {
-    return valor.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
+function formatarMoeda(valor) {
+  return valor.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+}
+
+lista.addEventListener("click", (event) => {
+  if (event.target.classList.contains("btn-remover")) {
+    let idParaRemover = Number(event.target.dataset.id);
+    transacoes = transacoes.filter(
+      (transacao) => transacao.id !== idParaRemover
+    );
+    salvarTransacoes();
+    atualizarResumo();
+    renderizarListaTransacoes();
   }
 });
