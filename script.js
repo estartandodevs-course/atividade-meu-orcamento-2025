@@ -29,7 +29,23 @@ function formatarMoeda(valor) {
   });
 }
 
-function redenrizarListaTransacoes() {
+function atualizarResumo() {
+  const receitas = transacoes
+    .filter((transacao) => transacao.valor > 0)
+    .reduce((acc, transacao) => acc + transacao.valor, 0);
+
+  const despesas = transacoes
+    .filter((transacao) => transacao.valor < 0)
+    .reduce((acc, transacao) => acc + transacao.valor, 0);
+
+  const saldo = receitas + despesas;
+
+  spanReceitas.textContent = formatarMoeda(receitas);
+  spanDespesas.textContent = formatarMoeda(despesas);
+  spanSaldo.textContent = formatarMoeda(saldo);
+}
+
+function renderizarListaTransacoes() {
     lista.innerHTML = "";
 
     transacoes.forEach((transacao) => {
@@ -38,7 +54,7 @@ function redenrizarListaTransacoes() {
 
         li.innerHTML = `
             <span>${transacao.descricao} - ${formatarMoeda(transacao.valor)}</span>
-            <button class="botao-remover" data-id="${transacao.id}">x</button>
+            <button class="btn-remover" data-id="${transacao.id}">x</button>
         `;
 
         lista.appendChild(li);
@@ -76,10 +92,20 @@ function atualizarTela() {
 }
 
 function removerTransacao(evento) {
-  if (evento.target.classList.contains("botao-remover")) {
-    const id = Number(event.target.getAttribute("data-id"));
-    transacoes = transacoes.filter((t) => t.id !== id);
+  if (evento.target.classList.contains("btn-remover")) {
+    const id = Number(evento.target.getAttribute("data-id"));
+    transacoes = transacoes.filter((transacao) => transacao.id !== id);
     salvarTransacoes();
     atualizarTela();
   }
 }
+
+function iniciarTudo() {
+  transacoes = carregarTransacoes();
+  atualizarTela();
+
+  form.addEventListener("submit", adicionarTransacao);
+  lista.addEventListener("click", removerTransacao);
+}
+
+iniciarTudo();
