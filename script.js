@@ -1,10 +1,6 @@
 let transacoes = [];
 let lista = document.getElementById("lista-transacoes");
 
-carregarTransacoes();
-atualizarResumo();
-renderizarListaTransacoes();
-
 function carregarTransacoes() {
   try {
     const dados = localStorage.getItem("transacoes");
@@ -112,3 +108,11 @@ lista.addEventListener("click", (event) => {
     renderizarListaTransacoes();
   }
 });
+
+function init() {
+  carregarTransacoes();
+  atualizarResumo();
+  renderizarListaTransacoes();
+}
+
+init();
