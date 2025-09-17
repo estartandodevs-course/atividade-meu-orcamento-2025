@@ -74,3 +74,12 @@ function atualizarTela() {
   renderizarListaTransacoes();
   atualizarResumo();
 }
+
+function removerTransacao(evento) {
+  if (evento.target.classList.contains("botao-remover")) {
+    const id = Number(event.target.getAttribute("data-id"));
+    transacoes = transacoes.filter((t) => t.id !== id);
+    salvarTransacoes();
+    atualizarTela();
+  }
+}
