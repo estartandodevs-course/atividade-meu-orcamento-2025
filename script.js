@@ -21,3 +21,10 @@ function carregarTransacoes() {
 function salvarTransacoes() {
   localStorage.setItem("transacoes", JSON.stringify(transacoes));
 }
+
+function formatarMoeda(valor) {
+  return valor.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+}
