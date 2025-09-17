@@ -47,7 +47,6 @@ function atualizarResumo() {
 
 function renderizarListaTransacoes() {
     lista.innerHTML = "";
-
     transacoes.forEach((transacao) => {
         const li = document.createElement("li");
         li.classList.add(transacao.valor >= 0 ? "receita" : "despesa");
