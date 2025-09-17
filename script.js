@@ -44,3 +44,28 @@ function redenrizarListaTransacoes() {
         lista.appendChild(li);
     });
 }
+
+function adicionarTransacao(evento) {
+  evento.preventDefault();
+
+  const descricao = inputDescricao.value.trim();
+  const valor = Number(inputValor.value);
+
+  if (descricao === "" || isNaN(valor) || valor === 0) {
+    alert("Preencha todos os campos corretamente!");
+    return;
+  }
+
+  const novaTransacao = {
+    id: new Date().getTime(),
+    descricao: descricao,
+    valor: valor,
+  };
+
+  transacoes.push(novaTransacao);
+  salvarTransacoes();
+  atualizarTela();
+
+  inputDescricao.value = "";
+  inputValor.value = "";
+}
