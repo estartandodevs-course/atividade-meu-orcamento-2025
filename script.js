@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let htmlTransacoes = transacoes.map((transacao) => {
       return `<li class= '${transacao.valor > 0 ? "receita" : "despesa"}'>
       <p>${transacao.descricao} R$ ${transacao.valor}</p>
-      <button class='btn-remover' data-id='${transacao.valor}'>Remover</button>
+      <button class='btn-remover' data-id='${transacao.id}'>Remover</button>
       </li>`;
     });
 
