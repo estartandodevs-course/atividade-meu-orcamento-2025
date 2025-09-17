@@ -69,3 +69,8 @@ function adicionarTransacao(evento) {
   inputDescricao.value = "";
   inputValor.value = "";
 }
+
+function atualizarTela() {
+  renderizarListaTransacoes();
+  atualizarResumo();
+}
