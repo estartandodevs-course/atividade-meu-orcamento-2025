@@ -28,3 +28,19 @@ function formatarMoeda(valor) {
     currency: "BRL",
   });
 }
+
+function redenrizarListaTransacoes() {
+    lista.innerHTML = "";
+
+    transacoes.forEach((transacao) => {
+        const li = document.createElement("li");
+        li.classList.add(transacao.valor >= 0 ? "receita" : "despesa");
+
+        li.innerHTML = `
+            <span>${transacao.descricao} - ${formatarMoeda(transacao.valor)}</span>
+            <button class="botao-remover" data-id="${transacao.id}">x</button>
+        `;
+
+        lista.appendChild(li);
+    });
+}
