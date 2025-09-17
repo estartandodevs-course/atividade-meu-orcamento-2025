@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   carregarTransacoes();
   atualizarResumo();
+  renderizarListaTransacoes();
 
   function carregarTransacoes() {
     try {
@@ -69,10 +70,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let saldoFinal = somaReceita + somaDespesas;
 
-    document.getElementById("valor-receitas").textContent = formatarMoeda(somaReceita);
-    document.getElementById("valor-despesas").textContent = formatarMoeda(somaDespesas);
-    document.getElementById("valor-saldo").textContent = formatarMoeda(saldoFinal);
-  };
+    document.getElementById("valor-receitas").textContent =
+      formatarMoeda(somaReceita);
+    document.getElementById("valor-despesas").textContent =
+      formatarMoeda(somaDespesas);
+    document.getElementById("valor-saldo").textContent =
+      formatarMoeda(saldoFinal);
+  }
+
+  function renderizarListaTransacoes() {
+    let lista = document.getElementById("lista-transacoes");
+    lista.innerHTML = "";
+
+    let htmlTransacoes = transacoes.map((transacao) => {
+      return `<li class= '${transacao.valor > 0 ? "receita" : "despesa"}'>
+      <p>${transacao.descricao} R$ ${transacao.valor}</p>
+      <button class='btn-remover' data-id='${transacao.valor}'>Remover</button>
+      </li>`;
+    });
+
+    lista.innerHTML = htmlTransacoes.join("");
+  }
 
   function formatarMoeda(valor) {
     return valor.toLocaleString("pt-BR", {
