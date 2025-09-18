@@ -80,15 +80,21 @@ function atualizarResumo() {
 function renderizarListaTransacoes(listaFiltrada = transacoes) {
   lista.innerHTML = "";
 
-  let htmlTransacoes = listaFiltrada.map((transacao) => {
-    return `<li class= '${transacao.valor > 0 ? "receita" : "despesa"}'>
-      <p>${transacao.descricao} R$ ${transacao.valor}</p>
+  listaFiltrada.forEach((transacao) => {
+    const li = document.createElement("li");
+    li.className = transacao.valor > 0 ? "receita" : "despesa";
+
+    li.innerHTML = `
+      <p>${transacao.descricao} - ${formatarMoeda(transacao.valor)}</p>
       <button class='btn-editar' data-id='${transacao.id}'>Editar</button>
       <button class='btn-remover' data-id='${transacao.id}'>Remover</button>
-      </li>`;
-  });
+    `;
+    lista.appendChild(li);
 
-  lista.innerHTML = htmlTransacoes.join("");
+    setTimeout(() => {
+      li.classList.add("mostrar");
+    }, 10);
+  });
 }
 
 function formatarMoeda(valor) {
@@ -101,12 +107,20 @@ function formatarMoeda(valor) {
 lista.addEventListener("click", (event) => {
   if (event.target.classList.contains("btn-remover")) {
     let idParaRemover = Number(event.target.dataset.id);
-    transacoes = transacoes.filter(
-      (transacao) => transacao.id !== idParaRemover
-    );
-    salvarTransacoes();
-    atualizarResumo();
-    renderizarListaTransacoes();
+
+    const elementoLi = event.target.closest("li");
+    
+    elementoLi.classList.add("removendo");
+    elementoLi.classList.remove("mostrar");
+
+    setTimeout(() => {
+      transacoes = transacoes.filter(
+        (transacao) => transacao.id !== idParaRemover
+      );
+      salvarTransacoes();
+      atualizarResumo();
+      renderizarListaTransacoes();
+    }, 500);
   }
 });
 
@@ -160,7 +174,7 @@ lista.addEventListener("click", (event) => {
 });
 
 const secaoTransacoes = document.querySelector(".transacoes");
-const ulTransacoes = document.getElementById('lista-transacoes');
+const ulTransacoes = document.getElementById("lista-transacoes");
 
 const areaFiltros = document.createElement("div");
 areaFiltros.id = "area-filtros";
@@ -191,7 +205,6 @@ nomesBotoes.forEach((nome, index) => {
   areaFiltros.appendChild(botao);
 });
 secaoTransacoes.insertBefore(areaFiltros, ulTransacoes);
-
 
 function init() {
   carregarTransacoes();
