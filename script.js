@@ -83,6 +83,7 @@ function renderizarListaTransacoes() {
   let htmlTransacoes = transacoes.map((transacao) => {
     return `<li class= '${transacao.valor > 0 ? "receita" : "despesa"}'>
       <p>${transacao.descricao} R$ ${transacao.valor}</p>
+      <button class='btn-editar' data-id='${transacao.id}'>Editar</button>
       <button class='btn-remover' data-id='${transacao.id}'>Remover</button>
       </li>`;
   });
@@ -105,6 +106,55 @@ lista.addEventListener("click", (event) => {
     );
     salvarTransacoes();
     atualizarResumo();
+    renderizarListaTransacoes();
+  }
+});
+
+// Desafios Adicionais
+
+lista.addEventListener("click", (event) => {
+  if (event.target.classList.contains("btn-editar")) {
+    let idParaEditar = Number(event.target.dataset.id);
+    let transacaoParaEditar = transacoes.find(
+      (transacao) => transacao.id === idParaEditar
+    );
+    const elementoLi = event.target.closest("li");
+
+    elementoLi.innerHTML = `
+      <input type='text' value='${transacaoParaEditar.descricao}' id='nova-descricao'>
+      <input type='number' value='${transacaoParaEditar.valor}' id='novo-valor'>
+      <button class='btn-salvar' data-id='${idParaEditar}'>Salvar</button>
+      <button class='btn-cancelar' data-id='${idParaEditar}'>Cancelar</button>
+    `;
+  } else if (event.target.classList.contains("btn-salvar")) {
+    const idParaEditar = Number(event.target.dataset.id);
+    const elementoLi = event.target.closest("li");
+
+    let inputNovaDescricao = elementoLi.querySelector("#nova-descricao");
+    let inputNovoValor = elementoLi.querySelector("#novo-valor");
+    let novaDescricao = inputNovaDescricao.value;
+    let novoValor = Number(inputNovoValor.value);
+
+    if (!novaDescricao.trim() || isNaN(novoValor) || novoValor === 0) {
+      alert("Por favor, insira valores válidos.");
+      return;
+    }
+
+    transacoes = transacoes.map((transacao) => {
+      if (transacao.id === idParaEditar) {
+        return {
+          ...transacao,
+          descricao: novaDescricao,
+          valor: novoValor,
+        };
+      }
+      return transacao;
+    });
+
+    salvarTransacoes();
+    renderizarListaTransacoes();
+    atualizarResumo();
+  } else if (event.target.classList.contains("btn-cancelar")) {
     renderizarListaTransacoes();
   }
 });

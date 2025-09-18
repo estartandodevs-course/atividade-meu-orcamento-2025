@@ -96,7 +96,7 @@ form button:hover {
 #lista-transacoes li.despesa {
   border-color: #dc3545;
 }
-.btn-remover {
+.btn-remover, .btn-editar, .btn-salvar, .btn-cancelar {
   background-color: #e6e6e6;
   border: none;
   color: #a0a0a0;
@@ -105,7 +105,12 @@ form button:hover {
   padding: 5px 10px;
   border-radius: 3px;
 }
-.btn-remover:hover {
+.btn-remover:hover, .btn-cancelar:hover {
   background-color: #dc3545;
+  color: white;
+}
+
+.btn-editar:hover, .btn-salvar:hover {
+  background-color: #28a745;
   color: white;
 }
