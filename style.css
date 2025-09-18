@@ -96,7 +96,7 @@ form button:hover {
 #lista-transacoes li.despesa {
   border-color: #dc3545;
 }
-.btn-remover {
+.btn-remover, .btn-editar, .btn-salvar, .btn-cancelar, .btn-filtro {
   background-color: #e6e6e6;
   border: none;
   color: #a0a0a0;
@@ -105,7 +105,55 @@ form button:hover {
   padding: 5px 10px;
   border-radius: 3px;
 }
-.btn-remover:hover {
+.btn-remover:hover, .btn-cancelar:hover {
   background-color: #dc3545;
   color: white;
+}
+
+.btn-editar:hover, .btn-salvar:hover{
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-filtro:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+#area-filtros {
+  margin-top: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Desafio adicional */
+#lista-transacoes li {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mostrar {
+  animation: aparecer 0.6s ease forwards;
+}
+
+@keyframes desaparecer {
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+.removendo {
+  animation: desaparecer 0.6s ease forwards;
 }
