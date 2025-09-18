@@ -96,7 +96,7 @@ form button:hover {
 #lista-transacoes li.despesa {
   border-color: #dc3545;
 }
-.btn-remover, .btn-editar, .btn-salvar, .btn-cancelar {
+.btn-remover, .btn-editar, .btn-salvar, .btn-cancelar, .btn-filtro {
   background-color: #e6e6e6;
   border: none;
   color: #a0a0a0;
@@ -110,7 +110,18 @@ form button:hover {
   color: white;
 }
 
-.btn-editar:hover, .btn-salvar:hover {
+.btn-editar:hover, .btn-salvar:hover{
   background-color: #28a745;
   color: white;
+}
+
+.btn-filtro:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+#area-filtros {
+  margin-top: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
 }

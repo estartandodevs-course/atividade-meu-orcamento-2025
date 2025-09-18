@@ -77,10 +77,10 @@ function atualizarResumo() {
     formatarMoeda(saldoFinal);
 }
 
-function renderizarListaTransacoes() {
+function renderizarListaTransacoes(listaFiltrada = transacoes) {
   lista.innerHTML = "";
 
-  let htmlTransacoes = transacoes.map((transacao) => {
+  let htmlTransacoes = listaFiltrada.map((transacao) => {
     return `<li class= '${transacao.valor > 0 ? "receita" : "despesa"}'>
       <p>${transacao.descricao} R$ ${transacao.valor}</p>
       <button class='btn-editar' data-id='${transacao.id}'>Editar</button>
@@ -158,6 +158,40 @@ lista.addEventListener("click", (event) => {
     renderizarListaTransacoes();
   }
 });
+
+const secaoTransacoes = document.querySelector(".transacoes");
+const ulTransacoes = document.getElementById('lista-transacoes');
+
+const areaFiltros = document.createElement("div");
+areaFiltros.id = "area-filtros";
+
+const nomesBotoes = ["Filtrar Receitas", "Filtrar Despesas", "Mostrar Tudo"];
+
+nomesBotoes.forEach((nome, index) => {
+  const botao = document.createElement("button");
+  botao.textContent = nome;
+  botao.style.marginRight = "10px";
+  botao.className = "btn-filtro";
+
+  botao.addEventListener("click", (event) => {
+    switch (index) {
+      case 0:
+        let receitas = transacoes.filter((obj) => obj.valor > 0);
+        renderizarListaTransacoes(receitas);
+        break;
+      case 1:
+        let despesas = transacoes.filter((obj) => obj.valor < 0);
+        renderizarListaTransacoes(despesas);
+        break;
+      case 2:
+        renderizarListaTransacoes();
+        break;
+    }
+  });
+  areaFiltros.appendChild(botao);
+});
+secaoTransacoes.insertBefore(areaFiltros, ulTransacoes);
+
 
 function init() {
   carregarTransacoes();
